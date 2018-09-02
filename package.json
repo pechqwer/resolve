@@ -4,6 +4,10 @@
   "description": "สำหรับเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
