@@ -8,7 +8,7 @@
     "dev": "tsc -w",
     "build": "tsc",
     "test": "mocha --require babel-register --require babel-polyfill",
-    "test:w": "mocha --require babel-register --require babel-polyfill -w"
+    "test:w": "mocha -w --require babel-register --require babel-polyfill"
   },
   "repository": {
     "type": "git",

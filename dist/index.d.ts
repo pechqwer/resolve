@@ -1,2 +1,2 @@
-declare const withResolve: (func: (...params: any[]) => any) => (...params: any[]) => Promise<{}>;
-export default withResolve;
+declare const _default: (func: (...params: any[]) => any) => (...params: any[]) => Promise<{}>;
+export default _default;

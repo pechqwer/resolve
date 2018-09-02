@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const withResolve = (func) => (...params) => {
+exports.default = (func) => (...params) => {
     if (!(func instanceof Function))
         throw new Error('first parameter must be function.');
     return new Promise(async (resolve) => {
@@ -13,4 +13,3 @@ const withResolve = (func) => (...params) => {
         }
     });
 };
-exports.default = withResolve;
