@@ -1,15 +1,40 @@
 {
-  "name": "js-resolve-style",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@cdglib/js-resolve-style",
+  "version": "",
+  "description": "สำหรับเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsc -w",
+    "build": "tsc",
+    "test": "mocha --require babel-register --require babel-polyfill",
+    "test:w": "mocha --require babel-register --require babel-polyfill -w"
   },
   "repository": {
     "type": "git",
     "url": "https://gitserv.cdg.co.th/APS-Team/JavaScript-Library/JS-Resolve-Style.git"
   },
-  "author": "",
-  "license": "ISC"
+  "publishConfig": {
+    "registry": "https://gitserv.cdg.co.th:8443/repository/npm-releases/"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "cdglib",
+    "promise"
+  ],
+  "author": "APS Team",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  }
 }
