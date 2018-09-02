@@ -1,0 +1,52 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+  - release
+#  - deploy
+#  - cleanup
+
+before_script:
+  - rm -f .npmrc
+
+build:
+  stage: build
+  script:
+    - npm config set registry https://gitserv.cdg.co.th:8443/repository/npm-public/
+    - echo "email=nexus.pull@cdg.co.th" >> .npmrc
+    - echo "always-auth=true" >> .npmrc
+    - echo "_auth=$NEXUS_TOKEN_PULL" >> .npmrc
+    - npm install --verbose
+    - npm run build
+  tags:
+    - npm
+
+test:
+  stage: test
+  script:
+    - npm run test
+  tags:
+    - npm
+
+release:
+  stage: release
+  script:
+    - echo "email=nexus.push@cdg.co.th" >> .npmrc
+    - echo "always-auth=true" >> .npmrc
+    - echo "_auth=$NEXUS_TOKEN_PUSH" >> .npmrc
+    - npm version --no-git-tag-version "$CI_BUILD_TAG"
+    - npm publish --verbose
+  tags:
+    - npm
+  only:
+    - tags
