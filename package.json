@@ -11,5 +11,10 @@
     "url": "https://gitserv.cdg.co.th/APS-Team/JavaScript-Library/JS-Resolve-Style.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "typescript": "^3.0.3"
+  }
 }
