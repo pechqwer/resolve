@@ -76,9 +76,85 @@ const doSomethingAgain = async () => {
 }
 ```
 
+### Multiple function
+```javascript
+import withResolve from '@cdglib/js-resolve-style'
+
+const getName = id => {
+  // ...
+
+}
+
+const getAddress = id => {
+  // ...
+
+}
+
+const getSalary = id => {
+  // ...
+
+}
+
+// async/await with resolve style
+const doSomething = async () => {
+  const getAll = withResolve(getName, getAddress, getSalary)
+
+  const [error, result] = await getAll(['010'],['010'],['010'])
+
+  if (error[0]) { /* error of getName --> do something */ }
+  console.log(result[0]) // date of getName
+
+  if (error[1]) { /* error of getAddress --> do something */ }
+  console.log(result[1]) // date of getAddress
+
+  if (error[2]) { /* error of getSalary --> do something */ }
+  console.log(result[2]) // date of getSalary
+}
+```
+
+or
+
+```javascript
+import withResolve from '@cdglib/js-resolve-style'
+
+const getName = id => {
+  // ...
+
+}
+
+const getAddress = id => {
+  // ...
+
+}
+
+const getSalary = id => {
+  // ...
+
+}
+
+const doSomething = async () => {
+  const getAll = withResolve(
+    () => getName('101'),
+    () => getAddress('101'),
+    () => getSalary('101'),
+  )
+
+  const [error, result] = await getAll()
+
+  if (error[0]) { /* error of getName --> do something */ }
+  console.log(result[0]) // date of getName
+
+  if (error[1]) { /* error of getAddress --> do something */ }
+  console.log(result[1]) // date of getAddress
+
+  if (error[2]) { /* error of getSalary --> do something */ }
+  console.log(result[2]) // date of getSalary
+}
+```
+
 ## Format ของ withResolve
 ```javascript
-const withResolve = (func) => (...params) => new Promise(/*...*/)
+const withResolve = (...func) => (...params) => new Promise(/*...*/)
 
 const newFn = withResolve(oldFunt)
 newFn()

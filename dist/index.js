@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const wrapperWithPromiseAll_1 = __importDefault(require("./wrapperWithPromiseAll"));
 const validationFunc = (funcs) => {
     if (!(funcs instanceof Array))
-        throw new Error('funcs must be array');
+        throw new Error('funcs must be array.');
     if (funcs.length === 0)
         throw new Error('funcs must not empty.');
     if (!funcs.every(f => f instanceof Function))
