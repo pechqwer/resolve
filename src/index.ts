@@ -1,3 +1,5 @@
+import wrapperWithPromiseAll from './wrapperWithPromiseAll'
+
 const validationFunc = (funcs: Array<(...params: any[]) => any>) => {
   if (!(funcs instanceof Array)) throw new Error('funcs must be array')
   if (funcs.length === 0) throw new Error('funcs must not empty.')
@@ -10,19 +12,7 @@ const wrapperWithPromise = (func: (...params: any[]) => any, params: any[]) => {
       const result = await func(...params)
       resolve([null, result])
     } catch (error) {
-      resolve([error])
-    }
-  })
-}
-
-const wrapperWithPromiseAll = (funcs: Array<(...params: any[]) => any>, params: any[]) => {
-  return new Promise(async (resolve) => {
-    try {
-      const funcsWithParams = funcs.map((func, i) => func(params[i]))
-      const result = await Promise.all(funcsWithParams)
-      resolve([null, result])
-    } catch (error) {
-      resolve([error])
+      resolve([error, null])
     }
   })
 }

@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const wrapperWithPromiseAll_1 = __importDefault(require("./wrapperWithPromiseAll"));
 const validationFunc = (funcs) => {
     if (!(funcs instanceof Array))
         throw new Error('funcs must be array');
@@ -15,19 +19,7 @@ const wrapperWithPromise = (func, params) => {
             resolve([null, result]);
         }
         catch (error) {
-            resolve([error]);
-        }
-    });
-};
-const wrapperWithPromiseAll = (funcs, params) => {
-    return new Promise(async (resolve) => {
-        try {
-            const funcsWithParams = funcs.map((func, i) => func(params[i]));
-            const result = await Promise.all(funcsWithParams);
-            resolve([null, result]);
-        }
-        catch (error) {
-            resolve([error]);
+            resolve([error, null]);
         }
     });
 };
@@ -36,5 +28,5 @@ exports.default = (...funcs) => (...params) => {
     if (funcs.length === 1) {
         return wrapperWithPromise(funcs[0], params);
     }
-    return wrapperWithPromiseAll(funcs, params);
+    return wrapperWithPromiseAll_1.default(funcs, params);
 };
