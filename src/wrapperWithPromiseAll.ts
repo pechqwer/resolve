@@ -8,20 +8,20 @@ const validateParams = (limit: number, params: any[]) => {
 }
 
 export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
-  interface ITrigger {
-    countSuccess: number,
-    result: any[],
-    error: any[],
-  }
-
-  const trigger: ITrigger = {
-    countSuccess: 0,
-    error: [],
-    result: [],
-  }
-
   return new Promise((resolve) => {
     if (params.length > 0) validateParams(funcs.length, params)
+
+    interface ITrigger {
+      countSuccess: number,
+      result: any[],
+      error: any[],
+    }
+
+    const trigger: ITrigger = {
+      countSuccess: 0,
+      error: [],
+      result: [],
+    }
 
     const maxTrigger: number = funcs.length
 
