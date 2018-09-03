@@ -65,42 +65,32 @@ describe('withResolve', () => {
   * - TODO: fix Error: Resolution method is overspecified.
   *   Specify a callback *or* return a Promise; not both.
   */
-  it.skip('withResolve can use with multiple promise function (without error)', async (done) => {
-    try {
-      const [error, result] = await withResolve(
-        fnPromiseSuccess,
-        fnPromiseSuccess,
-        fnPromiseSuccess,
-      )()
+  it.skip('withResolve can use with multiple promise function (without error)', async () => {
+    const [error, result] = await withResolve(
+      fnPromiseSuccess,
+      fnPromiseSuccess,
+      fnPromiseSuccess,
+    )()
 
-      expect(error).to.deep.equal([null, null, null])
-      expect(result).to.deep.equal([
-        RESPONSE_SUCCESS,
-        RESPONSE_SUCCESS,
-        RESPONSE_SUCCESS,
-      ])
-      done()
-    } catch (error) {
-      done(error)
-    }
+    expect(error).to.deep.equal([null, null, null])
+    expect(result).to.deep.equal([
+      RESPONSE_SUCCESS,
+      RESPONSE_SUCCESS,
+      RESPONSE_SUCCESS,
+    ])
   })
 
-  it.skip('withResolve can use with multiple promise function (with error)', async (done) => {
-    try {
-      const [error, result] = await withResolve(
-        fnPromiseSuccess,
-        fnPromiseFail,
-        fnPromiseFail,
-      )()
+  it.skip('withResolve can use with multiple promise function (with error)', async () => {
+    const [error, result] = await withResolve(
+      fnPromiseSuccess,
+      fnPromiseFail,
+      fnPromiseFail,
+    )()
 
-      expect(error.length).to.equal(3)
-      expect(error[0]).to.be.null
-      expect(error[1]).to.not.be.null
-      expect(error[2]).to.not.be.null
-      expect(result).to.deep.equal([RESPONSE_SUCCESS, null, null])
-      done()
-    } catch (error) {
-      done(error)
-    }
+    expect(error.length).to.equal(3)
+    expect(error[0]).to.be.null
+    expect(error[1]).to.not.be.null
+    expect(error[2]).to.not.be.null
+    expect(result).to.deep.equal([RESPONSE_SUCCESS, null, null])
   })
 })

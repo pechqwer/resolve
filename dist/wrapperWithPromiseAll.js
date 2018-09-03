@@ -18,7 +18,10 @@ exports.default = (funcs, params) => {
         };
         const asyncCall = async (func, i) => {
             try {
-                const result = await func(params[i]);
+                const param = params[i]
+                    ? params[i]
+                    : [];
+                const result = await func(...param);
                 done(i, null, result);
             }
             catch (error) {

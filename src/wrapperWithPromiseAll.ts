@@ -26,7 +26,10 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
 
     const asyncCall = async (func: (...params: any[]) => any, i: number) => {
       try {
-        const result = await func(params[i])
+        const param = params[i]
+          ? params[i]
+          : []
+        const result = await func(...param)
         done(i, null, result)
       } catch (error) {
         done(i, error)
