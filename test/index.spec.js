@@ -46,7 +46,7 @@ describe('withResolve', () => {
       withResolve(RESPONSE_SUCCESS)()
       expect.fail()
     } catch (error) {
-      expect(error.message).to.equal('first parameter must be function.')
+      expect(error.message).to.equal('element in funcs must be function.')
     }
   })
 
