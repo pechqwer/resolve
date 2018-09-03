@@ -1,7 +1,7 @@
 import wrapperWithPromiseAll from './wrapperWithPromiseAll'
 
 const validationFunc = (funcs: Array<(...params: any[]) => any>) => {
-  if (!(funcs instanceof Array)) throw new Error('funcs must be array')
+  if (!(funcs instanceof Array)) throw new Error('funcs must be array.')
   if (funcs.length === 0) throw new Error('funcs must not empty.')
   if (!funcs.every(f => f instanceof Function)) throw new Error('element in funcs must be function.')
 }

@@ -1,17 +1,28 @@
-interface ITrigger {
-  countSuccess: number,
-  result: any[],
-  error: any[],
-}
-
-const trigger: ITrigger = {
-  countSuccess: 0,
-  error: [],
-  result: [],
+const validateParams = (limit: number, params: any[]) => {
+  if (params.length !== limit) {
+    throw new Error('element in params must be equal element in funcs or empty.')
+  }
+  if (!params.every((param) => param instanceof Array)) {
+    throw new Error('element in params must be array.')
+  }
 }
 
 export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
+  interface ITrigger {
+    countSuccess: number,
+    result: any[],
+    error: any[],
+  }
+
+  const trigger: ITrigger = {
+    countSuccess: 0,
+    error: [],
+    result: [],
+  }
+
   return new Promise((resolve) => {
+    if (params.length > 0) validateParams(funcs.length, params)
+
     const maxTrigger: number = funcs.length
 
     const done = (i: number, error: any, result: any = null) => {
@@ -26,7 +37,7 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
 
     const asyncCall = async (func: (...params: any[]) => any, i: number) => {
       try {
-        const param = params[i]
+        const param = params.length > 0
           ? params[i]
           : []
         const result = await func(...param)
