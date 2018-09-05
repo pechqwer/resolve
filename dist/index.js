@@ -25,8 +25,7 @@ const wrapperWithPromise = (func, params) => {
 };
 exports.default = (...funcs) => (...params) => {
     validationFunc(funcs);
-    if (funcs.length === 1) {
+    if (funcs.length === 1)
         return wrapperWithPromise(funcs[0], params);
-    }
     return wrapperWithPromiseAll_1.default(funcs, params);
 };

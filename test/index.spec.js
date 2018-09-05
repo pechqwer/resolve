@@ -46,6 +46,7 @@ describe('withResolve', () => {
   it('withResolve must throw error when first parameter is not function', async () => {
     try {
       withResolve(RESPONSE_SUCCESS)()
+
       expect.fail()
     } catch (error) {
       expect(error.message).to.equal('element in funcs must be function.')
@@ -100,5 +101,19 @@ describe('withResolve', () => {
     expect(result[0]).to.be.equal('1-2-3')
     expect(result[1]).to.be.equal('4-5-6')
     expect(result[2]).to.be.equal('7-8-9')
+  })
+
+  it('withResolve must error with multiple promise function when parameters not correct format', async () => {
+    try {
+      await withResolve(
+        fnWithParas,
+        fnWithParas,
+        fnWithParas,
+      )([1, 2, 3], null, [7, 8, 9])
+
+      expect.fail()
+    } catch (error) {
+      expect(error.message).to.equal('element in params must be array.')
+    }
   })
 })
