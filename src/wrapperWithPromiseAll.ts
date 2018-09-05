@@ -37,9 +37,7 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
 
     const asyncCall = async (func: (...params: any[]) => any, i: number) => {
       try {
-        const param = params.length > 0
-          ? params[i]
-          : []
+        const param = params.length > 0 ? params[i] : []
         const result = await func(...param)
         done(i, null, result)
       } catch (error) {
