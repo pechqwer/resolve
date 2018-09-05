@@ -20,9 +20,7 @@ const wrapperWithPromise = (func: (...params: any[]) => any, params: any[]) => {
 export default (...funcs: Array<(...params: any[]) => any>) => (...params: any[]) => {
   validationFunc(funcs)
 
-  if (funcs.length === 1) {
-    return wrapperWithPromise(funcs[0], params)
-  }
+  if (funcs.length === 1) return wrapperWithPromise(funcs[0], params)
 
   return wrapperWithPromiseAll(funcs, params)
 }
