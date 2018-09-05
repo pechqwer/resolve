@@ -20,7 +20,7 @@ const getName = id => {
 // promise style
 const doSomething = () => {
   getName('010')
-    .then((name) => {
+    .then((result) => {
       // ...
 
     })
@@ -35,7 +35,7 @@ const doSomethingAgain = () => {
   const getNameWithResolve = withResolve(getName)
 
   getNameWithResolve('010')
-    .then(([error, name]) => {
+    .then(([error, result]) => {
       if (error) return
       // ...
 
@@ -55,7 +55,7 @@ const getName = id => {
 // async/await style
 const doSomething = async () => {
   try {
-    const name = await getName('010')
+    const result = await getName('010')
     // ...
 
   } catch (error) {
@@ -68,7 +68,7 @@ const doSomething = async () => {
 const doSomethingAgain = async () => {
   const getNameWithResolve = withResolve(getName)
 
-  const [error, name] = await getNameWithResolve('010')
+  const [error, result] = await getNameWithResolve('010')
 
   if (error) return
   // ...
