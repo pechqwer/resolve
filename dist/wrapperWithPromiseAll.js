@@ -28,9 +28,7 @@ exports.default = (funcs, params) => {
         };
         const asyncCall = async (func, i) => {
             try {
-                const param = params.length > 0
-                    ? params[i]
-                    : [];
+                const param = params.length > 0 ? params[i] : [];
                 const result = await func(...param);
                 done(i, null, result);
             }
