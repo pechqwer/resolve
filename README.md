@@ -10,7 +10,7 @@ npm install --save @cdglib/js-resolve-style
 ## วิธีใช้งาน
 ### Promise
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import rs from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
@@ -32,7 +32,7 @@ const doSomething = () => {
 
 // promise with resolve style
 const doSomethingAgain = () => {
-  const getNameWithResolve = withResolve(getName)
+  const getNameWithResolve = rs(getName)
 
   getNameWithResolve('010')
     .then(([error, result]) => {
@@ -45,7 +45,7 @@ const doSomethingAgain = () => {
 
 ### Async/Await
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import rs from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
@@ -66,7 +66,7 @@ const doSomething = async () => {
 
 // async/await with resolve style
 const doSomethingAgain = async () => {
-  const getNameWithResolve = withResolve(getName)
+  const getNameWithResolve = rs(getName)
 
   const [error, result] = await getNameWithResolve('010')
 
@@ -78,7 +78,7 @@ const doSomethingAgain = async () => {
 
 ### Multiple function
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import rs from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
@@ -97,7 +97,7 @@ const getSalary = id => {
 
 // async/await with resolve style
 const doSomething = async () => {
-  const getAll = withResolve(getName, getAddress, getSalary)
+  const getAll = rs(getName, getAddress, getSalary)
 
   const [error, result] = await getAll(['010'],['010'],['010'])
 
@@ -115,7 +115,7 @@ const doSomething = async () => {
 or
 
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import rs from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
@@ -133,7 +133,7 @@ const getSalary = id => {
 }
 
 const doSomething = async () => {
-  const getAll = withResolve(
+  const getAll = rs(
     () => getName('101'),
     () => getAddress('101'),
     () => getSalary('101'),
@@ -152,11 +152,11 @@ const doSomething = async () => {
 }
 ```
 
-## Format ของ withResolve
+## Format ของ rs
 ```javascript
-const withResolve = (...func) => (...params) => new Promise(/*...*/)
+rs = (...func) => (...params) => new Promise(/*...*/)
 
-const newFn = withResolve(oldFunt)
+const newFn = rs(oldFunt)
 newFn()
   .then(([error, result]) => {
     // ...
@@ -165,13 +165,13 @@ newFn()
 
 ```
 
-## Parameter ของ function `withResolve`
+## Parameter ของ function `rs`
 name | type | description
 ---- | ---- | -----------
 `func` | Function | function ที่ต้องการเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
 `params` | Any | เป็น parameter ของ function ที่ก่อนหน้า
 
-## Promise resolve ของ function `withResolve`
+## Promise resolve ของ function `rs`
 name | type | description
 ---- | ---- | -----------
 `error` | Function | เป็นค่าเออเร่อของ function
