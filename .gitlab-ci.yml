@@ -8,6 +8,7 @@ image: node:latest
 cache:
   paths:
     - node_modules/
+    - dist/
 
 stages:
   - build
