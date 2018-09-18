@@ -17,16 +17,9 @@ stages:
 #  - deploy
 #  - cleanup
 
-before_script:
-  - rm -f .npmrc
-
 build:
   stage: build
   script:
-    - npm config set registry https://gitserv.cdg.co.th:8443/repository/npm-public/
-    - echo "email=nexus.pull@cdg.co.th" >> .npmrc
-    - echo "always-auth=true" >> .npmrc
-    - echo "_auth=$NEXUS_TOKEN_PULL" >> .npmrc
     - npm install --verbose
     - npm run build
   tags:
@@ -42,9 +35,6 @@ test:
 release:
   stage: release
   script:
-    - echo "email=nexus.push@cdg.co.th" >> .npmrc
-    - echo "always-auth=true" >> .npmrc
-    - echo "_auth=$NEXUS_TOKEN_PUSH" >> .npmrc
     - npm version --no-git-tag-version "$CI_BUILD_TAG"
     - npm publish --verbose
   tags:
