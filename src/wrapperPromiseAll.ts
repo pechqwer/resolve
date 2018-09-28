@@ -1,3 +1,10 @@
+interface ITrigger {
+  countSuccess: number,
+  result: any[],
+  error: any[],
+  maxTrigger: number,
+}
+
 const validateParams = (limit: number, params: any[]) => {
   if (params.length !== limit) {
     throw new Error('element in params must be equal element in funcs or empty.')
@@ -7,30 +14,23 @@ const validateParams = (limit: number, params: any[]) => {
   }
 }
 
-export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
+export default (funcs: Array<(...params: any[]) => any>, params: any[]): Promise<[any[], any[]]> => {
   return new Promise((resolve) => {
     if (params.length > 0) validateParams(funcs.length, params)
-
-    interface ITrigger {
-      countSuccess: number,
-      result: any[],
-      error: any[],
-    }
 
     const trigger: ITrigger = {
       countSuccess: 0,
       error: [],
+      maxTrigger: funcs.length,
       result: [],
     }
 
-    const maxTrigger: number = funcs.length
-
-    const done = (i: number, error: any, result: any = null) => {
+    const done = (i: number, error: any, result: any) => {
       trigger.countSuccess += 1
       trigger.error[i] = error
       trigger.result[i] = result
 
-      if (trigger.countSuccess === maxTrigger) {
+      if (trigger.countSuccess === trigger.maxTrigger) {
         resolve([trigger.error, trigger.result])
       }
     }
@@ -39,9 +39,10 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]) => {
       try {
         const param = params.length > 0 ? params[i] : []
         const result = await func(...param)
+
         done(i, null, result)
       } catch (error) {
-        done(i, error)
+        done(i, error, null)
       }
     }
 
