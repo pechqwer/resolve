@@ -1,4 +1,5 @@
-import wrapperWithPromiseAll from './wrapperWithPromiseAll'
+import wrapperPromise from './wrapperPromise'
+import wrapperPromiseAll from './wrapperPromiseAll'
 
 const validationFunc = (funcs: Array<(...params: any[]) => any>) => {
   if (!(funcs instanceof Array)) throw new Error('funcs must be array.')
@@ -6,21 +7,12 @@ const validationFunc = (funcs: Array<(...params: any[]) => any>) => {
   if (!funcs.every(f => f instanceof Function)) throw new Error('element in funcs must be function.')
 }
 
-const wrapperWithPromise = (func: (...params: any[]) => any, params: any[]) => {
-  return new Promise(async (resolve) => {
-    try {
-      const result = await func(...params)
-      resolve([null, result])
-    } catch (error) {
-      resolve([error, null])
-    }
-  })
-}
+export default function(...funcs: Array<(...params: any[]) => any>) {
+  return (...params: any[]): Promise<[any, any]> | Promise<[any[], any[]]> => {
+    validationFunc(funcs)
 
-export default (...funcs: Array<(...params: any[]) => any>) => (...params: any[]) => {
-  validationFunc(funcs)
+    if (funcs.length === 1) return wrapperPromise(funcs[0], params)
 
-  if (funcs.length === 1) return wrapperWithPromise(funcs[0], params)
-
-  return wrapperWithPromiseAll(funcs, params)
+    return wrapperPromiseAll(funcs, params)
+  }
 }
