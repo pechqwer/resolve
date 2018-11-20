@@ -49,7 +49,7 @@ describe('withResolve', () => {
 
       expect.fail()
     } catch (error) {
-      expect(error.message).to.equal('element in funcs must be function.')
+      expect(error.message).to.equal('element in actions must be function or promise instance.')
     }
   })
 
@@ -115,5 +115,26 @@ describe('withResolve', () => {
     } catch (error) {
       expect(error.message).to.equal('element in params must be array.')
     }
+  })
+
+  it('withResolve can work with Promise instance', async () => {
+    const [error, result] = await withResolve(fnPromiseSuccess())()
+
+    expect(error).to.be.null
+    expect(result).to.equal(RESPONSE_SUCCESS)
+  })
+
+  it('withResolve can work with multi Promise instance', async () => {
+    const [error, result] = await withResolve(
+      fnPromiseSuccess(),
+      fnPromiseFail(),
+      fnPromiseFail(),
+    )()
+
+    expect(error.length).to.equal(3)
+    expect(error[0]).to.be.null
+    expect(error[1]).to.not.be.null
+    expect(error[2]).to.not.be.null
+    expect(result).to.deep.equal([RESPONSE_SUCCESS, null, null])
   })
 })
