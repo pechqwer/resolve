@@ -3,18 +3,24 @@
 สำหรับเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
 
 ## วิธีติดตั้ง
+
 ```
 npm install --save @cdglib/js-resolve-style
 ```
 
 ## วิธีใช้งาน
+
 ### Promise
+
 ```javascript
+
 import withResolve from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 // promise style
@@ -44,12 +50,15 @@ const doSomethingAgain = () => {
 ```
 
 ### Async/Await
+
 ```javascript
 import withResolve from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 // async/await style
@@ -77,22 +86,29 @@ const doSomethingAgain = async () => {
 ```
 
 ### Multiple function
+
 ```javascript
 import withResolve from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 const getAddress = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 const getSalary = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 // async/await with resolve style
@@ -119,17 +135,23 @@ import withResolve from '@cdglib/js-resolve-style'
 
 const getName = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 const getAddress = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 const getSalary = id => {
   // ...
-
+  return Promise((resolve, reject) => {
+    // ...
+  })
 }
 
 const doSomething = async () => {
@@ -152,9 +174,32 @@ const doSomething = async () => {
 }
 ```
 
-## Format ของ withResolve
+### Promise instance
+
 ```javascript
-withResolve = (...func) => (...params) => new Promise(/*...*/)
+import withResolve from '@cdglib/js-resolve-style'
+
+const getName = id => {
+  // ...
+  return Promise((resolve, reject) => {
+    // ...
+  })
+}
+
+// async/await with resolve style (use Promise instance instead of function)
+const doSomethingAgain = async () => {
+  const [error, result] = await withResolve(getName('010'))
+
+  if (error) return
+  // ...
+
+}
+```
+
+## Format ของ withResolve
+
+```javascript
+withResolve = (...action) => (...params) => new Promise(/*...*/)
 
 const newFn = withResolve(oldFunt)
 newFn()
@@ -166,12 +211,14 @@ newFn()
 ```
 
 ## Parameter ของ function `withResolve`
+
 name | type | description
 ---- | ---- | -----------
-`func` | Function | function ที่ต้องการเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
+`action` | Function | function หรือ Promise instance ที่ต้องการเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
 `params` | Any | เป็น parameter ของ function ที่ก่อนหน้า
 
 ## Promise resolve ของ function `withResolve`
+
 name | type | description
 ---- | ---- | -----------
 `error` | Function | เป็นค่าเออเร่อของ function
