@@ -1,3 +1,5 @@
+import { handleCallAction } from './helper/utils'
+
 interface ITrigger {
   countSuccess: number,
   result: any[],
@@ -14,14 +16,14 @@ const validateParams = (limit: number, params: any[]) => {
   }
 }
 
-export default (funcs: Array<(...params: any[]) => any>, params: any[]): Promise<[any[], any[]]> => {
+export default (actions: Array<(...params: any[]) => any>, params: any[]): Promise<[any[], any[]]> => {
   return new Promise((resolve) => {
-    if (params.length > 0) validateParams(funcs.length, params)
+    if (params.length > 0) validateParams(actions.length, params)
 
     const trigger: ITrigger = {
       countSuccess: 0,
       error: [],
-      maxTrigger: funcs.length,
+      maxTrigger: actions.length,
       result: [],
     }
 
@@ -35,10 +37,12 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]): Promise
       }
     }
 
+    // TODO: check Promise instance is not have params from application
     const asyncCall = async (func: (...params: any[]) => any, i: number) => {
       try {
         const param = params.length > 0 ? params[i] : []
-        const result = await func(...param)
+        // TODO: support Promise instance and function
+        const result = await handleCallAction(func, ...param)
 
         done(i, null, result)
       } catch (error) {
@@ -46,6 +50,6 @@ export default (funcs: Array<(...params: any[]) => any>, params: any[]): Promise
       }
     }
 
-    funcs.map((func, i) => asyncCall(func, i))
+    actions.map((func, i) => asyncCall(func, i))
   })
 }
