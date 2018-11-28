@@ -7,18 +7,15 @@ interface ITrigger {
   maxTrigger: number,
 }
 
-const validateParams = (limit: number, params: any[]) => {
-  if (params.length !== limit) {
-    throw new Error('element in params must be equal element in funcs or empty.')
-  }
-  if (!params.every((param) => param instanceof Array)) {
-    throw new Error('element in params must be array.')
+const validateParams = (params: any[]) => {
+  if (!params.every((param) => Array.isArray(param) || param === undefined )) {
+    throw new Error('element in params must be array or undefined.')
   }
 }
 
 export default (actions: Array<(...params: any[]) => any>, params: any[]): Promise<[any[], any[]]> => {
   return new Promise((resolve) => {
-    if (params.length > 0) validateParams(actions.length, params)
+    if (params.length > 0) validateParams(params)
 
     const trigger: ITrigger = {
       countSuccess: 0,
@@ -37,11 +34,9 @@ export default (actions: Array<(...params: any[]) => any>, params: any[]): Promi
       }
     }
 
-    // TODO: check Promise instance is not have params from application
     const asyncCall = async (func: (...params: any[]) => any, i: number) => {
       try {
-        const param = params.length > 0 ? params[i] : []
-        // TODO: support Promise instance and function
+        const param = params[i] !== undefined ? params[i] : []
         const result = await handleCallAction(func, ...param)
 
         done(i, null, result)

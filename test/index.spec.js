@@ -113,7 +113,7 @@ describe('withResolve', () => {
 
       expect.fail()
     } catch (error) {
-      expect(error.message).to.equal('element in params must be array.')
+      expect(error.message).to.equal('element in params must be array or undefined.')
     }
   })
 
