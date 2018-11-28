@@ -196,6 +196,23 @@ const doSomethingAgain = async () => {
 }
 ```
 
+### Use with Axios
+
+
+```javascript
+import withResolve from '@cdglib/js-resolve-style'
+import axios from 'axios'
+
+// async/await with resolve style (use Promise instance instead of function)
+const doSomethingAgain = async () => {
+  const [error, result] = await withResolve(axios.get('http://xxx.com'))
+
+  if (error) return
+  // ...
+
+}
+```
+
 ## Format ของ withResolve
 
 ```javascript
