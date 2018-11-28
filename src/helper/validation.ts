@@ -1,3 +1,3 @@
 export const isFuntion = (value: any): boolean => value instanceof Function
 
-export const isPromise = (value: any): boolean => value instanceof Promise
+export const isPromiseInstance = (value: any): boolean => value instanceof Promise
