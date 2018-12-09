@@ -1,6 +1,6 @@
 # @cdglib/js-resolve-style
 
-สำหรับเปลี่ยนรูปแบบของ Promise จาก `resolve(result)/reject(error)` เป็น `resolve([error, result])`
+withResolve เป็น library สำหรับเปลี่ยนรูปแบบของ Promise จาก `resolve(result)/reject(error)` เป็น `resolve([error, result])`
 
 ## วิธีติดตั้ง
 
@@ -10,26 +10,26 @@ npm install --save @cdglib/js-resolve-style
 
 ## วิธีใช้งานเบื้องต้น
 
-### with async action
+### ใช้กับ async action
 
 ```javascript
 import withResolve from '@cdglib/js-resolve-style'
 
-const getByID = id => {
+function getByID(id) {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-const getAll = () => {
+function getAll() {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-const doSomething = async () => {
+async function doSomething() {
   const getByIDRS = withResolve(getByID)
   const getAllRS = withResolve(getAll)
 
@@ -47,13 +47,13 @@ const doSomething = async () => {
 }
 ```
 
-### with external library eg. axios
+### ใช้กับ external library eg. axios
 
 ```javascript
 import axios from 'axios'
 import withResolve from '@cdglib/js-resolve-style'
 
-const doSomething = async () => {
+async function doSomething() {
   const [error1, response1] = await withResolve(axios.get('http://xxx/pop.xxx'))()
   if (error1) return
 
@@ -65,7 +65,7 @@ const doSomething = async () => {
 
   console.log(response2)
 
-  // สามารถทำ wrapper function สำหรับ axios ได้
+  // สามารถทำ compose function สำหรับ axios ได้
   const axiosGetRS = withResolve(axios.get)
   const axiosPostRS = withResolve(axios.post)
 
@@ -77,33 +77,33 @@ const doSomething = async () => {
 }
 ```
 
-### with multi action
+### ใช้กับ multiple action
 
 ```javascript
 import withResolve from '@cdglib/js-resolve-style'
 
-const getName = id => {
+function getName(id) {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-const getAddress = id => {
+function getAddress(id) {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-const getPandas = () => {
+function getPandas() {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-const doSomething = async () => {
+async function doSomething() {
   const [errors, results] = await withResolve(
     getName,
     getPandas,
@@ -120,7 +120,7 @@ const doSomething = async () => {
 ## เอกสาร
 
 * [Getting start](docs/GETTING_START.md)
-* [Asynchronous action](docs/ASYNC_ACTION.md)
+* [Function return Promise](docs/ASYNC_ACTION.md)
 * [Promise instance](docs/PROMISE_INSTANCE.md)
-* [Synchronous action](docs/SYNC_ACTION.md)
+* [General function](docs/SYNC_ACTION.md)
 * [Multiple action](docs/MULTI_ACTION.md)
