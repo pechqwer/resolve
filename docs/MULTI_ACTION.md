@@ -157,7 +157,10 @@ async function doSomething() {
     getByNameAndAge,
   )(undefined, ['Somsri'], ['Somsri', 28])
 
-  if (errors.some(error => error != null)) return
+  if (errors.some(error => error != null)) {
+    // ...
+    return
+  }
 
   console.log(results)
 }
