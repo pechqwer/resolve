@@ -34,13 +34,19 @@ async function doSomething() {
   const getAllRS = withResolve(getAll)
 
   const [error1, result1] = await getByIDRS('1234')
-  if (error1) return
+  if (error1) {
+    // ...
+    return
+  }
 
   console.log(result1)
 
   const [error2, result2] = await getAllRS()
 
-  if (error2) return
+  if (error2) {
+    // ...
+    return
+  }
 
   console.log(result2)
 
@@ -110,7 +116,10 @@ async function doSomething() {
     getAddress,
   )(['010'], undefined, ['010'])
 
-  if (errors.some(error => error != null)) return
+  if (errors.some(error => error != null)) {
+    // ...
+    return
+  }
 
   console.log(results)
 }

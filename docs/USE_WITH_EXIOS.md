@@ -10,13 +10,19 @@ import withResolve from '@cdglib/js-resolve-style'
 
 async function doSomething() {
   const [error1, response1] = await withResolve(axios.get('http://xxx/pop.xxx'))()
-  if (error1) return
+  if (error1) {
+    // ...
+    return
+  }
 
   console.log(response1)
 
   const body = { /* ... */ }
-  const [error2, response2] = await withResolve(axios.post('http://xxx/hourse.xxx', body))()
-  if (error2) return
+  const [error2, response2] = await withResolve(axios.post('http://xxx/house.xxx', body))()
+  if (error2) {
+    // ...
+    return
+  }
 
   console.log(response2)
 
@@ -25,9 +31,9 @@ async function doSomething() {
   const axiosPostRS = withResolve(axios.post)
 
   const [error3, response3] = await axiosGetRS('http://xxx/pop.xxx')
-  const [error4, response4] = await axiosGetRS('http://xxx/hourse.xxx')
+  const [error4, response4] = await axiosGetRS('http://xxx/house.xxx')
 
   const [error5, response5] = await axiosPostRS('http://xxx/pop.xxx', body)
-  const [error6, response6] = await axiosPostRS('http://xxx/hourse.xxx', body)
+  const [error6, response6] = await axiosPostRS('http://xxx/house.xxx', body)
 }
 ```
