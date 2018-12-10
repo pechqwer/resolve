@@ -158,7 +158,7 @@ async function doSomething() {
   // function return Promise
   const [error1, result1] = await withResolve(getAll)()
   // เพื่อความแน่ใจ
-  // คุณอาจจะเช็ค error1 == null หรือ error1 === null ก็ได้
+  // คุณอาจจะเช็ค error1 != null หรือ error1 !== null ก็ได้
   if (error1) {
     // ...
     return
