@@ -65,7 +65,7 @@ async function doSomething() {
 
   console.log(response2)
 
-  // สามารถทำ compose function สำหรับ axios ได้
+  // สามารถทำ wrapper function สำหรับ axios ได้
   const axiosGetRS = withResolve(axios.get)
   const axiosPostRS = withResolve(axios.post)
 
@@ -110,7 +110,7 @@ async function doSomething() {
     getAddress,
   )(['010'], undefined, ['010'])
 
-  if (errors.some(e => e != null)) return
+  if (errors.some(error => error != null)) return
 
   console.log(results)
 }
@@ -120,7 +120,8 @@ async function doSomething() {
 ## เอกสาร
 
 * [Getting start](docs/GETTING_START.md)
-* [Function return Promise](docs/ASYNC_ACTION.md)
+* [Function return Promise](docs/FUNCTION_RETURN_PROMISE_INS.md)
 * [Promise instance](docs/PROMISE_INSTANCE.md)
-* [General function](docs/SYNC_ACTION.md)
+* [General function](docs/GENERAL_FUNCTION.md)
 * [Multiple action](docs/MULTI_ACTION.md)
+* [Use with axios](docs/USE_WITH_EXIOS.md)

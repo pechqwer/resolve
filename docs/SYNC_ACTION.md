@@ -1,3 +1,0 @@
-# Synchronous action
-
-* In Progress
