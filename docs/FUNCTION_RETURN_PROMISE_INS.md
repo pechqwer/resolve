@@ -1,4 +1,4 @@
-# Asynchronous action
+# Function return Promise instance
 
 * In Progress
 
