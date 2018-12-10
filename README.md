@@ -10,7 +10,7 @@ npm install --save @cdglib/js-resolve-style
 
 ## วิธีใช้งานเบื้องต้น
 
-### ใช้กับ async action
+### ใช้กับ asynchronous action
 
 ```javascript
 import withResolve from '@cdglib/js-resolve-style'
