@@ -42,8 +42,8 @@ async function doSomething() {
 
   const promiseIns = getByNameAndAge('Somchai', 40)
   const [error3, result3] = await withResolve(promiseIns)()
-  if (error2) return
+  if (error3) return
 
-  console.log(result2)
+  console.log(result3)
 }
 ```
