@@ -26,7 +26,7 @@ async function doSomething() {
   // or
 
   try {
-    const result = getAll()
+    const result = await getAll()
 
     // ...
   } cacth(error) {
