@@ -1,6 +1,6 @@
 # @cdglib/js-resolve-style
 
-สำหรับเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
+withResolve เป็น library สำหรับเปลี่ยนรูปแบบของ Promise จาก `resolve(result)/reject(error)` เป็น `resolve([error, result])`
 
 ## วิธีติดตั้ง
 
@@ -8,235 +8,120 @@
 npm install --save @cdglib/js-resolve-style
 ```
 
-## วิธีใช้งาน
+## วิธีใช้งานเบื้องต้น
 
-### Promise
+### ใช้กับ async action
 
 ```javascript
-
 import withResolve from '@cdglib/js-resolve-style'
 
-const getName = id => {
+function getByID(id) {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-// promise style
-const doSomething = () => {
-  getName('010')
-    .then((result) => {
-      // ...
-
-    })
-    .catch((error) => {
-      // ...
-
-    })
-}
-
-// promise with resolve style
-const doSomethingAgain = () => {
-  const getNameWithResolve = withResolve(getName)
-
-  getNameWithResolve('010')
-    .then(([error, result]) => {
-      if (error) return
-      // ...
-
-    })
-}
-```
-
-### Async/Await
-
-```javascript
-import withResolve from '@cdglib/js-resolve-style'
-
-const getName = id => {
+function getAll() {
   // ...
   return Promise((resolve, reject) => {
     // ...
   })
 }
 
-// async/await style
-const doSomething = async () => {
-  try {
-    const result = await getName('010')
-    // ...
+async function doSomething() {
+  const getByIDRS = withResolve(getByID)
+  const getAllRS = withResolve(getAll)
 
-  } catch (error) {
-    // ...
+  const [error1, result1] = await getByIDRS('1234')
+  if (error1) return
 
-  }
-}
+  console.log(result1)
 
-// async/await with resolve style
-const doSomethingAgain = async () => {
-  const getNameWithResolve = withResolve(getName)
+  const [error2, result2] = await getAllRS()
 
-  const [error, result] = await getNameWithResolve('010')
+  if (error2) return
 
-  if (error) return
-  // ...
+  console.log(result2)
 
 }
 ```
 
-### Multiple function
+### ใช้กับ external library eg. axios
 
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
-
-const getName = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-const getAddress = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-const getSalary = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-// async/await with resolve style
-const doSomething = async () => {
-  const getAll = withResolve(getName, getAddress, getSalary)
-
-  const [error, result] = await getAll(['010'],['010'],['010'])
-
-  if (error[0]) { /* error of getName --> do something */ }
-  console.log(result[0]) // date of getName
-
-  if (error[1]) { /* error of getAddress --> do something */ }
-  console.log(result[1]) // date of getAddress
-
-  if (error[2]) { /* error of getSalary --> do something */ }
-  console.log(result[2]) // date of getSalary
-}
-```
-
-or
-
-```javascript
-import withResolve from '@cdglib/js-resolve-style'
-
-const getName = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-const getAddress = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-const getSalary = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-const doSomething = async () => {
-  const getAll = withResolve(
-    () => getName('101'),
-    () => getAddress('101'),
-    () => getSalary('101'),
-  )
-
-  const [error, result] = await getAll()
-
-  if (error[0]) { /* error of getName --> do something */ }
-  console.log(result[0]) // date of getName
-
-  if (error[1]) { /* error of getAddress --> do something */ }
-  console.log(result[1]) // date of getAddress
-
-  if (error[2]) { /* error of getSalary --> do something */ }
-  console.log(result[2]) // date of getSalary
-}
-```
-
-### Promise instance
-
-```javascript
-import withResolve from '@cdglib/js-resolve-style'
-
-const getName = id => {
-  // ...
-  return Promise((resolve, reject) => {
-    // ...
-  })
-}
-
-// async/await with resolve style (use Promise instance instead of function)
-const doSomethingAgain = async () => {
-  const [error, result] = await withResolve(getName('010'))
-
-  if (error) return
-  // ...
-
-}
-```
-
-### Use with Axios
-
-
-```javascript
-import withResolve from '@cdglib/js-resolve-style'
 import axios from 'axios'
+import withResolve from '@cdglib/js-resolve-style'
 
-// async/await with resolve style (use Promise instance instead of function)
-const doSomethingAgain = async () => {
-  const [error, result] = await withResolve(axios.get('http://xxx.com'))
+async function doSomething() {
+  const [error1, response1] = await withResolve(axios.get('http://xxx/pop.xxx'))()
+  if (error1) return
 
-  if (error) return
-  // ...
+  console.log(response1)
 
+  const body = { /* ... */ }
+  const [error2, response2] = await withResolve(axios.post('http://xxx/hourse.xxx', body))()
+  if (error2) return
+
+  console.log(response2)
+
+  // สามารถทำ wrapper function สำหรับ axios ได้
+  const axiosGetRS = withResolve(axios.get)
+  const axiosPostRS = withResolve(axios.post)
+
+  const [error3, response3] = await axiosGetRS('http://xxx/pop.xxx')
+  const [error4, response4] = await axiosGetRS('http://xxx/hourse.xxx')
+
+  const [error5, response5] = await axiosPostRS('http://xxx/pop.xxx', body)
+  const [error6, response6] = await axiosPostRS('http://xxx/hourse.xxx', body)
 }
 ```
 
-## Format ของ withResolve
+### ใช้กับ multiple action
 
 ```javascript
-withResolve = (...action) => (...params) => new Promise(/*...*/)
+import withResolve from '@cdglib/js-resolve-style'
 
-const newFn = withResolve(oldFunt)
-newFn()
-  .then(([error, result]) => {
+function getName(id) {
+  // ...
+  return Promise((resolve, reject) => {
     // ...
-
   })
+}
+
+function getAddress(id) {
+  // ...
+  return Promise((resolve, reject) => {
+    // ...
+  })
+}
+
+function getPandas() {
+  // ...
+  return Promise((resolve, reject) => {
+    // ...
+  })
+}
+
+async function doSomething() {
+  const [errors, results] = await withResolve(
+    getName,
+    getPandas,
+    getAddress,
+  )(['010'], undefined, ['010'])
+
+  if (errors.some(error => error != null)) return
+
+  console.log(results)
+}
 
 ```
 
-## Parameter ของ function `withResolve`
+## เอกสาร
 
-name | type | description
----- | ---- | -----------
-`action` | Function | function หรือ Promise instance ที่ต้องการเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])
-`params` | Any | เป็น parameter ของ function ที่ก่อนหน้า
-
-## Promise resolve ของ function `withResolve`
-
-name | type | description
----- | ---- | -----------
-`error` | Function | เป็นค่าเออเร่อของ function
-`result` | Any | เป็นค่าผลลัพธ์ของ function
+* [Getting start](docs/GETTING_START.md)
+* [Function return Promise](docs/FUNCTION_RETURN_PROMISE_INS.md)
+* [Promise instance](docs/PROMISE_INSTANCE.md)
+* [General function](docs/GENERAL_FUNCTION.md)
+* [Multiple action](docs/MULTI_ACTION.md)
+* [Use with axios](docs/USE_WITH_EXIOS.md)
