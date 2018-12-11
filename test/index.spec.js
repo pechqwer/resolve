@@ -4,15 +4,11 @@ import withResolve from '../dist'
 const RESPONSE_SUCCESS = 'RESPONSE_SUCCESS'
 const RESPONSE_ERROR = 'RESPONSE_ERROR'
 
+const fnWithParas = (a, b, c) => `${a}-${b}-${c}`
 const fnSuccess = () => RESPONSE_SUCCESS
 const fnFail = () => { throw new Error(RESPONSE_ERROR) }
-const fnWithParas = (a, b, c) => `${a}-${b}-${c}`
-const fnPromiseSuccess = () => new Promise((resolve) => {
-  resolve(RESPONSE_SUCCESS)
-})
-const fnPromiseFail = () => new Promise((_, reject) => {
-  reject(new Error(RESPONSE_ERROR))
-})
+const fnPromiseSuccess = () => Promise.resolve(RESPONSE_SUCCESS)
+const fnPromiseFail = () => Promise.reject(new Error(RESPONSE_ERROR))
 
 describe('withResolve', () => {
   it('withResolve can use with function (without error)', async () => {
