@@ -61,13 +61,19 @@ import withResolve from '@cdglib/js-resolve-style'
 
 async function doSomething() {
   const [error1, response1] = await withResolve(axios.get('http://xxx/pop.xxx'))()
-  if (error1) return
+  if (error1) {
+    // ...
+    return
+  }
 
   console.log(response1)
 
   const body = { /* ... */ }
   const [error2, response2] = await withResolve(axios.post('http://xxx/hourse.xxx', body))()
-  if (error2) return
+  if (error2) {
+    // ...
+    return
+  }
 
   console.log(response2)
 
@@ -115,7 +121,6 @@ async function doSomething() {
     getPandas,
     getAddress,
   )(['010'], undefined, ['010'])
-
   if (errors.some(error => error != null)) {
     // ...
     return
