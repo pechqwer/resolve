@@ -12,15 +12,15 @@ stages:
 
 build:
   stage: build
-  script:
-    - npm install --verbose
-    - npm run build
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
       - dist/
       - node_modules/
+  script:
+    - npm install --verbose
+    - npm run build
   tags:
     - npm
 
