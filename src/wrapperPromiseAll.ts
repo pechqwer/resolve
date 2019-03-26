@@ -1,4 +1,5 @@
 import { handleCallAction } from './helper/utils'
+import { TWithResolveAction } from './ts'
 
 interface ITrigger {
   countSuccess: number,
@@ -13,7 +14,7 @@ const validateParams = (params: any[]) => {
   }
 }
 
-export default (actions: Array<(...params: any[]) => any>, params: any[]): Promise<[any[], any[]]> => {
+export default (actions: TWithResolveAction[], params: any[]): Promise<[any[], any[]]> => {
   return new Promise((resolve) => {
     if (params.length > 0) validateParams(params)
 
@@ -34,7 +35,7 @@ export default (actions: Array<(...params: any[]) => any>, params: any[]): Promi
       }
     }
 
-    const asyncCall = async (func: (...params: any[]) => any, i: number) => {
+    const asyncCall = async (func: TWithResolveAction, i: number) => {
       try {
         const param = params[i] !== undefined ? params[i] : []
         const result = await handleCallAction(func, ...param)
