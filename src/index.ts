@@ -1,8 +1,9 @@
 import { isFuntion, isPromiseInstance } from './helper/validation'
+import { TWithResolveAction } from './ts'
 import wrapperPromise from './wrapperPromise'
 import wrapperPromiseAll from './wrapperPromiseAll'
 
-const validationFunc = (actions: Array<(...params: any[]) => any>) => {
+const validationFunc = (actions: TWithResolveAction[]) => {
   if (!(actions instanceof Array)) throw new Error('actions must be array.')
   if (actions.length === 0) throw new Error('actions must not empty.')
   if (!actions.every(f => isFuntion(f) || isPromiseInstance(f) )) {
@@ -10,7 +11,7 @@ const validationFunc = (actions: Array<(...params: any[]) => any>) => {
   }
 }
 
-export default function(...actions: Array<(...params: any[]) => any>) {
+export default function(...actions: TWithResolveAction[]) {
   return (...params: any[]): Promise<[any, any]> | Promise<[any[], any[]]> => {
     validationFunc(actions)
 
