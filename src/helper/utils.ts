@@ -1,6 +1,6 @@
 import { isFuntion, isPromiseInstance } from './validation'
 
-export const handleCallAction = (action: any, ...params: any[]): any => {
+export const handleCallAction = (action: any, ...params: any[]): Promise<any> => {
   if (isFuntion(action)) return action(...params)
   if (isPromiseInstance(action)) return action
 
