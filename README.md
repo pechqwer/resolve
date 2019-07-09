@@ -8,6 +8,8 @@ withResolve เป็น library สำหรับเปลี่ยนรู�
 npm install --save @cdglib/js-resolve-style
 ```
 
+* `withResolve ตั้งแต่ version 2.x.x ขึ้นไปทำงานกับ Promise function กับ Promise instance เท่านั้น(ไม่รองรับ function ปกติ)`
+
 ## วิธีใช้งานเบื้องต้น
 
 ### ใช้กับ asynchronous action
@@ -136,6 +138,5 @@ async function doSomething() {
 * [Getting start](docs/GETTING_START.md)
 * [Function return Promise](docs/FUNCTION_RETURN_PROMISE_INS.md)
 * [Promise instance](docs/PROMISE_INSTANCE.md)
-* [General function](docs/GENERAL_FUNCTION.md)
 * [Multiple action](docs/MULTI_ACTION.md)
 * [Use with axios](docs/USE_WITH_EXIOS.md)

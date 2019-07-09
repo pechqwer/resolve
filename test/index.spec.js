@@ -4,9 +4,8 @@ import withResolve from '../dist'
 const RESPONSE_SUCCESS = 'RESPONSE_SUCCESS'
 const RESPONSE_ERROR = 'RESPONSE_ERROR'
 
-const fnWithParas = (a, b, c) => `${a}-${b}-${c}`
-const fnSuccess = () => RESPONSE_SUCCESS
-const fnFail = () => { throw new Error(RESPONSE_ERROR) }
+const fnWithParam = (a, b, c) => Promise.resolve(`${a}-${b}-${c}`)
+const fnSuccess = () => Promise.resolve(RESPONSE_SUCCESS)
 const fnPromiseSuccess = () => Promise.resolve(RESPONSE_SUCCESS)
 const fnPromiseFail = () => Promise.reject(new Error(RESPONSE_ERROR))
 
@@ -16,13 +15,6 @@ describe('withResolve', () => {
 
     expect(error).to.be.null
     expect(result).to.equal(RESPONSE_SUCCESS)
-  })
-
-  it('withResolve can use with function (with error)', async () => {
-    const [error, result] = await withResolve(fnFail)()
-
-    expect(error.message).to.equal(RESPONSE_ERROR)
-    expect(result).to.be.null
   })
 
   it('withResolve can use with promise function (without error)', async () => {
@@ -50,7 +42,7 @@ describe('withResolve', () => {
   })
 
   it('withResolve can work wiht second parameter', async () => {
-    const [error, result] = await withResolve(fnWithParas)('1', '2', '3')
+    const [error, result] = await withResolve(fnWithParam)('1', '2', '3')
 
     expect(error).to.be.null
     expect(result).to.equal('1-2-3')
@@ -87,9 +79,9 @@ describe('withResolve', () => {
 
   it('withResolve can use with multiple promise function with parameter', async () => {
     const [error, result] = await withResolve(
-      fnWithParas,
-      fnWithParas,
-      fnWithParas,
+      fnWithParam,
+      fnWithParam,
+      fnWithParam,
     )([1, 2, 3], [4, 5, 6], [7, 8, 9])
 
     expect(error).to.deep.equal([null, null, null])
@@ -102,9 +94,9 @@ describe('withResolve', () => {
   it('withResolve must error with multiple promise function when parameters not correct format', async () => {
     try {
       await withResolve(
-        fnWithParas,
-        fnWithParas,
-        fnWithParas,
+        fnWithParam,
+        fnWithParam,
+        fnWithParam,
       )([1, 2, 3], null, [7, 8, 9])
 
       expect.fail()

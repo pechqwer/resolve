@@ -35,15 +35,11 @@ export default (actions: TWithResolveAction[], params: any[]): Promise<[any[], a
       }
     }
 
-    const asyncCall = async (func: TWithResolveAction, i: number) => {
-      try {
-        const param = params[i] !== undefined ? params[i] : []
-        const result = await handleCallAction(func, ...param)
-
-        done(i, null, result)
-      } catch (error) {
-        done(i, error, null)
-      }
+    const asyncCall = (func: TWithResolveAction, i: number) => {
+      const param = params[i] !== undefined ? params[i] : []
+      handleCallAction(func, ...param)
+        .then(result => done(i, null, result))
+        .catch(error => done(i, error, null))
     }
 
     actions.map((func, i) => asyncCall(func, i))
