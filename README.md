@@ -94,7 +94,7 @@ async function doSomething() {
 ### ใช้กับ multiple action
 
 ```javascript
-import { withResolveAll } from '@cdglib/js-resolve-style'
+import withResolve from '@cdglib/js-resolve-style'
 
 function getName(id) {
   // ...
@@ -118,7 +118,7 @@ function getPandas() {
 }
 
 async function doSomething() {
-  const [errors, results] = await withResolveAll(
+  const [errors, results] = await withResolve.all(
     getName,
     getPandas,
     getAddress,
@@ -139,4 +139,4 @@ async function doSomething() {
 * [Function return Promise](docs/FUNCTION_RETURN_PROMISE_INS.md)
 * [Promise instance](docs/PROMISE_INSTANCE.md)
 * [Multiple action](docs/MULTI_ACTION.md)
-* [Use with axios](docs/USE_WITH_EXIOS.md)
+* [Use with axios](docs/USE_WITH_AXIOS.md)
