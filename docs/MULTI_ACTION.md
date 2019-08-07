@@ -2,7 +2,7 @@
 
 * In Progress
 
-withResolve สามารถทำงานกับ multiple action ได้
+withResolveAll สามารถทำงานกับ multiple action ได้
 
 ซึ่ง action ในที่นี้จะหมายถึง `function return Promise instance`, `Promise instance` และ `general function`
 
@@ -11,7 +11,7 @@ withResolve สามารถทำงานกับ multiple action ได้
 ## Syntax
 
 ```javascript
-withResolve(action1 , action2, ..., actionn)(params1, params0, ..., paramsn)
+withResolveAll(action1 , action2, ..., actionN)(params1, params0, ..., paramsn)
 ```
 
 <b>action</b> คือ สิ่งที่เราจะดำเนินการซึ่งจะอยู่ในรูปแบบของ `function return Promise instance`, `Promise instance` และ `general function` อย่างใดอย่างหนึ่ง และถ้า action มีมากกว่า จะถือว่าเป็นการทำงาน แบบ multiple action
@@ -27,7 +27,7 @@ withResolve(action1 , action2, ..., actionn)(params1, params0, ..., paramsn)
 แต่ถ้า action นั้นไม่ต้องการรับ parameter ให้ระบุ params ในรูป `[]` หรือ `undefined`
 
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import { withResolveAll } from '@cdglib/js-resolve-style'
 
 
 function getAll() {
@@ -52,7 +52,7 @@ function getByNameAndAge(name, age) {
 }
 
 async function doSomething() {
-  const [errors, results] = await withResolve(
+  const [errors, results] = await withResolveAll(
     getAll,
     getByName,
     getByNameAndAge,
@@ -68,7 +68,7 @@ async function doSomething() {
 * errors มีค่าใน array เป็น null ทั้งหมดแสดงว่ามี action ที่นั้นเกิด error
 
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import { withResolveAll } from '@cdglib/js-resolve-style'
 
 
 function getAll() {
@@ -93,7 +93,7 @@ function getByNameAndAge(name, age) {
 }
 
 async function doSomething() {
-  const [errors, results] = await withResolve(
+  const [errors, results] = await withResolveAll(
     getAll,
     getByName,
     getByNameAndAge,
@@ -126,7 +126,7 @@ async function doSomething() {
 หรือจะ validation error แบบไม่สนใจตำแหน่งก็ได้
 
 ```javascript
-import withResolve from '@cdglib/js-resolve-style'
+import { withResolveAll } from '@cdglib/js-resolve-style'
 
 
 function getAll() {
@@ -151,7 +151,7 @@ function getByNameAndAge(name, age) {
 }
 
 async function doSomething() {
-  const [errors, results] = await withResolve(
+  const [errors, results] = await withResolveAll(
     getAll,
     getByName,
     getByNameAndAge,

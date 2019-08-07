@@ -1,4 +1,5 @@
 import { handleCallAction } from './helper/utils'
+import { isFuntion, isPromiseInstance } from './helper/validation'
 import { TWithResolveAction } from './ts'
 
 interface ITrigger {
@@ -14,7 +15,17 @@ const validateParams = (params: any[]) => {
   }
 }
 
+const validationFunc = (actions: TWithResolveAction[]) => {
+  if (!(actions instanceof Array)) throw new Error('actions must be array.')
+  if (actions.length === 0) throw new Error('actions must not empty.')
+  if (!actions.every(f => isFuntion(f) || isPromiseInstance(f) )) {
+    throw new Error('element in actions must be function or promise instance.')
+  }
+}
+
 export default (actions: TWithResolveAction[], params: any[]): Promise<[any[], any[]]> => {
+  validationFunc(actions)
+
   return new Promise((resolve) => {
     if (params.length > 0) validateParams(params)
 
