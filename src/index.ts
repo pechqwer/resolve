@@ -1,9 +1,16 @@
-import { isFuntion, isPromiseInstance } from './helper/validation'
 import { TWithResolveAction } from './ts'
-import withResolve from './withResolve'
-import withResolveAll from './withResolveAll'
 
-export {
-  withResolveAll,
+import wrapperPromise from './wrapperPromise'
+import wrapperPromiseAll from './wrapperPromiseAll'
+
+export function withResolveAll(...actions: TWithResolveAction[]) {
+  return (...params: any[]): Promise<[any, any]> | Promise<[any[], any[]]> => {
+    return wrapperPromiseAll(actions, params)
+  }
 }
-export default withResolve
+
+export default function withResolve(action: TWithResolveAction) {
+  return (...params: any[]): Promise<[any, any]> | Promise<[any[], any[]]> => {
+    return wrapperPromise(action, params)
+  }
+}

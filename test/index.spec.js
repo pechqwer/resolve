@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import withResolve from '../dist'
+import withResolve, { withResolveAll } from '../dist'
 
 const RESPONSE_SUCCESS = 'RESPONSE_SUCCESS'
 const RESPONSE_ERROR = 'RESPONSE_ERROR'
@@ -48,8 +48,8 @@ describe('withResolve', () => {
     expect(result).to.equal('1-2-3')
   })
 
-  it('withResolve can use with multiple promise function (without error)', async () => {
-    const [error, result] = await withResolve(
+  it('withResolveAll can use with multiple promise function (without error)', async () => {
+    const [error, result] = await withResolveAll(
       fnPromiseSuccess,
       fnPromiseSuccess,
       fnPromiseSuccess,
@@ -63,8 +63,8 @@ describe('withResolve', () => {
     ])
   })
 
-  it('withResolve can use with multiple promise function (with error)', async () => {
-    const [error, result] = await withResolve(
+  it('withResolveAll can use with multiple promise function (with error)', async () => {
+    const [error, result] = await withResolveAll(
       fnPromiseSuccess,
       fnPromiseFail,
       fnPromiseFail,
@@ -77,8 +77,8 @@ describe('withResolve', () => {
     expect(result).to.deep.equal([RESPONSE_SUCCESS, null, null])
   })
 
-  it('withResolve can use with multiple promise function with parameter', async () => {
-    const [error, result] = await withResolve(
+  it('withResolveAll can use with multiple promise function with parameter', async () => {
+    const [error, result] = await withResolveAll(
       fnWithParam,
       fnWithParam,
       fnWithParam,
@@ -91,9 +91,9 @@ describe('withResolve', () => {
     expect(result[2]).to.be.equal('7-8-9')
   })
 
-  it('withResolve must error with multiple promise function when parameters not correct format', async () => {
+  it('withResolveAll must error with multiple promise function when parameters not correct format', async () => {
     try {
-      await withResolve(
+      await withResolveAll(
         fnWithParam,
         fnWithParam,
         fnWithParam,
@@ -112,8 +112,8 @@ describe('withResolve', () => {
     expect(result).to.equal(RESPONSE_SUCCESS)
   })
 
-  it('withResolve can work with multi Promise instance', async () => {
-    const [error, result] = await withResolve(
+  it('withResolveAll can work with multi Promise instance', async () => {
+    const [error, result] = await withResolveAll(
       fnPromiseSuccess(),
       fnPromiseFail(),
       fnPromiseFail(),

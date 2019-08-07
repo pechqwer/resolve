@@ -3,7 +3,7 @@ import { isFuntion, isPromiseInstance } from './helper/validation'
 import { TWithResolveAction } from './ts'
 
 const validationFunc = (action: TWithResolveAction) => {
-  if (!isFuntion(action) || isPromiseInstance(action)) {
+  if (!isFuntion(action) && !isPromiseInstance(action)) {
     throw new Error('element in actions must be function or promise instance.')
   }
 }
