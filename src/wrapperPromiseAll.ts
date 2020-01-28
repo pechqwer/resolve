@@ -53,6 +53,6 @@ export default (actions: TWithResolveAction[], params: any[]): Promise<[any[], a
         .catch(error => done(i, error, null))
     }
 
-    actions.map((func, i) => asyncCall(func, i))
+    actions.forEach((func, i) => asyncCall(func, i))
   })
 }
