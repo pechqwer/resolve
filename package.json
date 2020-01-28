@@ -2,6 +2,7 @@
   "name": "@cdglib/js-resolve-style",
   "version": "",
   "description": "สำหรับเปลี่ยนรูปแบบของ Promise จาก resolve(result)/reject(error) เป็น resolve([error, result])",
+  "homepage": "https://gitserv.cdg.co.th/APS-Team/JavaScript-Library/JS-Resolve-Style#readme",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
